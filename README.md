@@ -4,6 +4,8 @@ Welcome to the "Guess the Number" app! This is a simple interactive game where p
 
 The app is divided into two directories: server and client.
 
+<h1>Download and play Locally</h1>
+
 <h2>Server</h2>
 
 The server directory contains the backend of the app.
@@ -17,12 +19,19 @@ cd server
 npm install
 ```
 
+Also, signup to mongoDB and create a cluster.
+Then create a .env file and populate it like so
+
+````
+DATABASE_ACCESS=<your-connection-string>
+```
+
 **Running the Server**
 
 To start the server, run the following command within the server directory:
 
 ```
-npm start
+npm run dev
 ```
 
 The server will start running, allowing the client to communicate with it.
@@ -39,6 +48,14 @@ To install the client dependencies, navigate to the client directory:
 cd client
 npm install
 ````
+
+Also, signup to cloudinary. 
+Then create a .env file in the root of the client folder and populate like so
+
+````
+REACT_APP_CLOUDINARY_USERNAME=<your cloudinary username>
+REACT_APP_CLOUDINARY_PRESET=<your cloudinary preset>
+```
 
 **Running the Client**
 

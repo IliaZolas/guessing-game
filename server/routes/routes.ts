@@ -5,7 +5,6 @@ import Users from '../models/users';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import auth from './auth';
-// import cloudinary from 'cloudinary';
 import cors from 'cors';
 import {gameLogic} from '../game-logic/game'
 
@@ -129,33 +128,6 @@ routes.put('/user/update/:id', auth, (req: Request, res: Response) => {
     }
     ).then((data) => res.json(data));
     });
-
-// routes.delete('/user/delete/:id', (req: Request, res: Response) => {
-//     const userId = req.params.id;
-//     console.log(userId, ':delete route');
-    
-//     Users.deleteOne({ _id: userId }, function (err: Error | null, _result: any) {
-//         if (err) {
-//         res.status(400).send(`Error deleting listing with id ${userId}!`);
-//         } else {
-//         console.log(`${userId} document deleted`);
-//         }
-//     });
-    
-//     cloudinary.v2.config({
-//         cloud_name: process.env.CLOUD_NAME,
-//         api_key: process.env.CLOUD_API_KEY,
-//         api_secret: process.env.CLOUD_API_SECRET,
-//     });
-    
-//     const publicId = req.params.public_id;
-//     console.log('cloudinary check public_id for delete:', publicId);
-    
-//     cloudinary.v2.uploader
-//         .destroy(publicId)
-//         .then((result) => console.log('cloudinary delete', result))
-//         .catch((_err) => console.log('Something went wrong, please try again later.'));
-//     });
 
 
 
