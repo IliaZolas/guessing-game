@@ -7,7 +7,7 @@ The app is divided into two directories: server and client.
 **Below are instruction on how to download and play locally**
 
 <ol>
-    <li href="/#server">Setup Server</li>
+    <li><a href="/#server">Setup Server</a></li>
 </ol>
 
 
