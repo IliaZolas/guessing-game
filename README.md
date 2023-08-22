@@ -106,7 +106,7 @@ A frontend interface should be built for the player to initiate and play the gam
 
 <h1 id="assumptions">Assumptions</h1>
 
-1. I can must host on Azure
+1. I must host on Azure
 
 2. I can use mongoDB account instead of mongoDB instance through Azure as the minimum throughput on the free azure plan is lower than what my app requires even when scaled down to a minimum.
 
