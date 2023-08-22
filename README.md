@@ -6,7 +6,12 @@ The app is divided into two directories: server and client.
 
 **Below are instruction on how to download and play locally**
 
-<h2>Server</h2>
+<ol>
+    <li href="/#server">Setup Server</li>
+</ol>
+
+
+<h2 id="server">Server</h2>
 
 The server directory contains the backend of the app.
 
@@ -36,7 +41,7 @@ npm run dev
 
 The server will start running, allowing the client to communicate with it.
 
-<h2>Client</h2>
+<h2 id="client">Client</h2>
 
 The client directory contains the frontend of the app.
 
@@ -77,7 +82,7 @@ This will launch the client application in your browser.
 
 Enjoy playing the "Guess the Number" game!
 
-<h1>Brief</h1>
+<h1 id="brief">Brief</h1>
 
 The two services will play the game “Guess the Number”.  
 
@@ -95,7 +100,7 @@ The solution should be hosted in Microsoft Azure Cloud using the free subscripti
 
 A frontend interface should be built for the player to initiate and play the game.
 
-<h1>Assumptions</h1>
+<h1 id="assumptions">Assumptions</h1>
 
 1. I can must host on Azure
 
@@ -103,7 +108,7 @@ A frontend interface should be built for the player to initiate and play the gam
 
 3. "The respective data can eventually be cleaned up" likely refers to the data associated with each game instance. I will store the game id in session storage and clear it when the correct guess has been made. Logged in user only cleared on log out.
 
-<h1>Self-rating assessment</h1>
+<h1 id="self-assessment">Self-rating assessment</h1>
 
 Please "rate" yourself on a scale from 1 to 10 for the following categories: 
   
@@ -117,6 +122,6 @@ Please "rate" yourself on a scale from 1 to 10 for the following categories:
    
 - DevOps Engineering - 5
    
-Production Readiness - 5
+- Production Readiness - 5
 
 The scale 1 being "I've heard about it at the bar yesterday" while the scale 10 is you wrote a book about it and you're a recognized expert in that area. 
