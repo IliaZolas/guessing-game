@@ -106,7 +106,7 @@ A frontend interface should be built for the player to initiate and play the gam
 
 <h1 id="assumptions">Assumptions</h1>
 
-1. I must host on Azure
+1. I must host the app client and server on Azure.
 
 2. I can use mongoDB account instead of mongoDB instance through Azure as the minimum throughput on the free azure plan is lower than what my app requires even when scaled down to a minimum.
 
@@ -116,9 +116,9 @@ A frontend interface should be built for the player to initiate and play the gam
 
 Please "rate" yourself on a scale from 1 to 10 for the following categories: 
   
-- Solution architecture - 4
+- Solution architecture - 5
    
-- Software Development Life Cycle (SDLC) - 4
+- Software Development Life Cycle (SDLC) - 5
    
 - Cloud providers (GCP, AWS, Azure) - 5
    
