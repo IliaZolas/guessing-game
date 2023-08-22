@@ -50,7 +50,7 @@ npm install
 ```
 
 Also, signup to Cloudinary. 
-Then create a .env file in the root of the client folder and populate like so
+Then create a .env file in the root of the client folder and populate like so:
 
 ```
 REACT_APP_CLOUDINARY_USERNAME=<your cloudinary username>
