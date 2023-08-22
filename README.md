@@ -49,7 +49,7 @@ cd client
 npm install
 ```
 
-Also, signup to cloudinary. 
+Also, signup to Cloudinary. 
 Then create a .env file in the root of the client folder and populate like so
 
 ```
