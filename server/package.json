@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "build": "tsc",
     "dev": "nodemon index.ts"
   },
   "author": "",
