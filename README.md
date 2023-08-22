@@ -76,3 +76,47 @@ This will launch the client application in your browser.
 5. Keep guessing until you find the correct number!
 
 Enjoy playing the "Guess the Number" game!
+
+<h1>Brief</h1>
+
+The two services will play the game “Guess the Number”.  
+
+The first service, the game host, will expose an authenticated REST API, where the other service, the player, can initiate and play the game:  
+  
+On initiation, the game host assigns a unique identifier and a random number between 1 and 10000 to the game and returns the identifier to the client service.  
+
+In the subsequent steps, the player service sends the identifier and its guess to the game host service, where it receives a response whether that number is equal, smaller, or larger than the one the game host thought of.  
+    
+When the number was successfully guessed, the instance of the game is considered finished. The respective data can eventually be cleaned up.  
+
+Only registered players can play the game, so all API endpoints of the game host service have to be protected with some kind of authentication.  
+
+The solution should be hosted in Microsoft Azure Cloud using the free subscription and the Azure components of your choice. 
+
+A frontend interface should be built for the player to initiate and play the game.
+
+<h1>Assumptions</h1>
+
+1. I can must host on Azure
+
+2. I can use mongoDB account instead of mongoDB instance through Azure as the minimum throughput on the free azure plan is lower than what my app requires even when scaled down to a minimum.
+
+3. "The respective data can eventually be cleaned up" likely refers to the data associated with each game instance. I will store the game id in session storage and clear it when the correct guess has been made. Logged in user only cleared on log out.
+
+<h1>Self-rating assessment</h1>
+
+Please "rate" yourself on a scale from 1 to 10 for the following categories: 
+  
+- Solution architecture - 4
+   
+- Software Development Life Cycle (SDLC) - 4
+   
+- Cloud providers (GCP, AWS, Azure) - 5
+   
+- Incident Management - 5
+   
+- DevOps Engineering - 5
+   
+Production Readiness - 5
+
+The scale 1 being "I've heard about it at the bar yesterday" while the scale 10 is you wrote a book about it and you're a recognized expert in that area. 
