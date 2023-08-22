@@ -2,12 +2,16 @@
 
 Welcome to the "Guess the Number" app! This is a simple interactive game where players can try to guess a randomly generated number.
 
-The app is divided into two directories: server and client.
+The app is divided into two directories: server and client. Below are instruction on how to download and play locally.
 
-**Below are instruction on how to download and play locally**
+**Contents**
 
 <ol>
     <li><a href="/#server">Setup Server</a></li>
+    <li><a href="/#client">Setup Client</a></li>
+    <li><a href="/#brief">Brief</a></li>
+    <li><a href="/#assumptions">Assumptions</a></li>
+    <li><a href="/#assessment">Self-assessment</a></li>
 </ol>
 
 
@@ -108,7 +112,7 @@ A frontend interface should be built for the player to initiate and play the gam
 
 3. "The respective data can eventually be cleaned up" likely refers to the data associated with each game instance. I will store the game id in session storage and clear it when the correct guess has been made. Logged in user only cleared on log out.
 
-<h1 id="self-assessment">Self-rating assessment</h1>
+<h1 id="assessment">Self-rating assessment</h1>
 
 Please "rate" yourself on a scale from 1 to 10 for the following categories: 
   
