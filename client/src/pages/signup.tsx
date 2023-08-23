@@ -134,6 +134,7 @@ const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
                 <label className="labels">
                     * Profile Picture 
                     <br/>- Please allow your picture to load
+                    <br/>- File size under 1MB
                     <input type="file" name="book" onChange={uploadImage}/>
                 </label>
                 <label className="labels hidden">
