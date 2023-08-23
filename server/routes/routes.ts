@@ -73,9 +73,15 @@ routes.post('/login', (req: Request, res: Response) => {
             .compare(req.body.password, user.password)
             .then((passwordCheck) => {
             console.log('password check object:', passwordCheck);
-            if (!passwordCheck) {
-                console.log('No password provided');
-            }
+            if (passwordCheck === false) {
+                console.log('No password provided or wrong password');
+                res.status(200).send({
+                    message: 'Login Failed',
+                    email: user.email,
+                    userId: user._id,
+                    passwordCheck
+                });
+            } else {
             const token = jwt.sign(
                 {
                 userId: user._id,
@@ -90,6 +96,7 @@ routes.post('/login', (req: Request, res: Response) => {
                 userId: user._id,
                 token,
             });
+            }
             })
             .catch((error) => {
             res.status(400).send({

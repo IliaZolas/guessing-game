@@ -18,7 +18,6 @@ const users_2 = __importDefault(require("../models/users"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_1 = __importDefault(require("./auth"));
-// import cloudinary from 'cloudinary';
 const cors_1 = __importDefault(require("cors"));
 const game_1 = require("../game-logic/game");
 const routes = express_1.default.Router();
@@ -79,19 +78,27 @@ routes.post('/login', (req, res) => {
             .compare(req.body.password, user.password)
             .then((passwordCheck) => {
             console.log('password check object:', passwordCheck);
-            if (!passwordCheck) {
-                console.log('No password provided');
+            if (passwordCheck === false) {
+                console.log('No password provided or wrong password');
+                res.status(200).send({
+                    message: 'Login Failed',
+                    email: user.email,
+                    userId: user._id,
+                    passwordCheck
+                });
             }
-            const token = jsonwebtoken_1.default.sign({
-                userId: user._id,
-                userEmail: user.email,
-            }, 'RANDOM-TOKEN', { expiresIn: '24h' });
-            res.status(200).send({
-                message: 'Login Successful',
-                email: user.email,
-                userId: user._id,
-                token,
-            });
+            else {
+                const token = jsonwebtoken_1.default.sign({
+                    userId: user._id,
+                    userEmail: user.email,
+                }, 'RANDOM-TOKEN', { expiresIn: '24h' });
+                res.status(200).send({
+                    message: 'Login Successful',
+                    email: user.email,
+                    userId: user._id,
+                    token,
+                });
+            }
         })
             .catch((error) => {
             res.status(400).send({
