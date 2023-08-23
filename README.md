@@ -116,16 +116,11 @@ A frontend interface should be built for the player to initiate and play the gam
 
 Please "rate" yourself on a scale from 1 to 10 for the following categories: 
   
-- Solution architecture - 5
-   
-- Software Development Life Cycle (SDLC) - 5
-   
+- Solution architecture - 6
+- Software Development Life Cycle (SDLC) - 6
 - Cloud providers (GCP, AWS, Azure) - 5
-   
-- Incident Management - 5
-   
-- DevOps Engineering - 5
-   
-- Production Readiness - 5
+- Incident Management - 7
+- DevOps Engineering - 7
+- Production Readiness - 6
 
 The scale 1 being "I've heard about it at the bar yesterday" while the scale 10 is you wrote a book about it and you're a recognized expert in that area. 
