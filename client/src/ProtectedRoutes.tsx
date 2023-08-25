@@ -1,14 +1,30 @@
 import { Outlet, Navigate } from "react-router-dom";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 
 const ProtectedRoutes = () => {
-  const auth = cookies.get("TOKEN");
-  // console.log("auth:", auth)
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/check-auth', {
+        method: 'GET',
+        credentials: 'include' // Include cookies in the request
+      });
 
-return (
-    auth ? <Outlet/> : <Navigate to='/login'/>
-  )
-}
+      if (response.ok) {
+        const data = await response.json();
+        if (data.authenticated) {
+          // User is authenticated, render protected content
+          return <Outlet />;
+        }
+      }
 
-export default ProtectedRoutes
+      // User is not authenticated, navigate to login
+      return <Navigate to="/login" />;
+    } catch (error) {
+      console.error('Error checking authentication:', error);
+      return <Navigate to="/login" />;
+    }
+  };
+
+  return checkAuth();
+};
+
+export default ProtectedRoutes;

@@ -4,7 +4,7 @@ import newUserTemplateCopy from '../models/users';
 import Users from '../models/users';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import auth from './auth';
+import authMiddleware from './auth';
 import cors from 'cors';
 import {gameLogic} from '../game-logic/game'
 
@@ -15,8 +15,13 @@ routes.use(cors());
 
 // Index Routes
 routes.get('/', (req: Request, res: Response) => {
-res.send('Hello world');
-});
+        res.send('Hello world');
+    });
+
+// Route to check authentication status
+routes.get('/check-auth', authMiddleware, (req: Request, res: Response) => {
+        res.status(200).json({ authenticated: true });
+    });
 
 // User Routes
 routes.post('/signup', (req: Request, res: Response) => {
@@ -82,20 +87,33 @@ routes.post('/login', (req: Request, res: Response) => {
                     passwordCheck
                 });
             } else {
-            const token = jwt.sign(
-                {
-                userId: user._id,
-                userEmail: user.email,
-                },
-                'RANDOM-TOKEN',
-                { expiresIn: '24h' }
-            );
-            res.status(200).send({
-                message: 'Login Successful',
-                email: user.email,
-                userId: user._id,
-                token,
-            });
+
+                const refreshToken = jwt.sign(
+                    {
+                        userId: user._id,
+                        userEmail: user.email,
+                    },
+                    'REFRESH-TOKEN-SECRET',
+                    { expiresIn: '7d' } // Set an appropriate expiration time for refresh tokens
+                );
+
+                const token = jwt.sign(
+                    {
+                        userId: user._id,
+                        userEmail: user.email,
+                        refreshToken: refreshToken,
+                    },
+                    'RANDOM-TOKEN',
+                    { expiresIn: '24h' }
+                );
+
+                res.status(200).send({
+                    message: 'Login Successful',
+                    email: user.email,
+                    userId: user._id,
+                    token,
+                    refreshToken
+                });
             }
             })
             .catch((error) => {
@@ -113,14 +131,14 @@ routes.post('/login', (req: Request, res: Response) => {
         });
     });  
 
-routes.get('/user/show/:id', (req: Request, res: Response) => {
+routes.get('/user/show/:id', authMiddleware, (req: Request, res: Response) => {
     const userId = req.params.id;
     console.log('GET SINGLE USER RECORD:', userId);
 
     Users.findOne({ _id: userId }).then((data) => res.json(data));
     });
 
-routes.put('/user/update/:id', auth, (req: Request, res: Response) => {
+routes.put('/user/update/:id', authMiddleware, (req: Request, res: Response) => {
     const userId = req.params.id;
     console.log('update user id route', userId);
 
@@ -140,7 +158,7 @@ routes.put('/user/update/:id', auth, (req: Request, res: Response) => {
 
 // Game routes
 
-routes.get('/start-the-game', async (req: Request, res: Response) => {
+routes.get('/start-the-game', authMiddleware, async (req: Request, res: Response) => {
     try {
         await gameLogic(req, res);
     } catch (error) {

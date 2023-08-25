@@ -11,11 +11,6 @@ const app: Express = express();
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 4000;
 console.log("port:",PORT)
 
-// Health check route
-// app.get('/health', (req, res) => {
-//   res.status(200).send('OK');
-// });
-
 mongoose
   .connect(process.env.DATABASE_ACCESS || '')
   .then(() => {

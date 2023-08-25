@@ -1,10 +1,10 @@
 import { useContext, useState, FormEvent } from "react";
 import { useNavigate } from 'react-router-dom';
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 import { UserContext } from '../UserContext';
 import { config } from '../config/config';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 const URL = config.url;
 
@@ -41,9 +41,14 @@ const LoginUser: React.FC = () => {
             const passwordCheck = result.passwordCheck
         
             if (userId !== undefined && userEmail !== undefined && passwordCheck !== false) {
-                cookies.set("TOKEN", result.token, {
-                path: "/"
-                });
+
+                 // Set HttpOnly cookies
+                document.cookie = `accessToken=${result.token}; Secure; HttpOnly; SameSite=Strict`;
+                document.cookie = `refreshToken=${result.refreshToken}; Secure; HttpOnly; SameSite=Strict`;
+
+                // cookies.set("TOKEN", result.token, {
+                // path: "/"
+                // });
                 localStorage.setItem('email', userEmail);
                 localStorage.setItem('id', userId);
                 setEmail('');
@@ -56,7 +61,7 @@ const LoginUser: React.FC = () => {
             alert("Login failed, password or email incorrect");
             }
         }
-     } catch (err) {
+        } catch (err) {
             if (isError(err)) {
                 console.log("password incorrect or missing:",err.message);
             } else {

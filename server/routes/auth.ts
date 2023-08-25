@@ -11,17 +11,25 @@ declare global {
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.authorization;
+    let token = req.headers.authorization;
+    console.log("token working:",req.headers.authorization)
+
+    if (!token) {
+      const cookies = req.cookies;
+      token = cookies.accessToken; 
+    }
+
     if (!token) {
       throw new Error("No token provided");
     }
+
     const decodedToken = jwt.verify(token, "RANDOM-TOKEN") as JwtPayload;
     const user = decodedToken;
-    
+
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({
+    res.status(403).json({
       error: new Error("Invalid request!"),
     });
   }
