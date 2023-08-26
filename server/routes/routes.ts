@@ -21,6 +21,7 @@ routes.get('/', (req: Request, res: Response) => {
 // Route to check authentication status
 routes.get('/check-auth', authMiddleware, (req: Request, res: Response) => {
         res.status(200).json({ authenticated: true });
+        console.log("what is it trying to log?",res.status(200).json({ authenticated: true }))
     });
 
 // User Routes
@@ -106,6 +107,8 @@ routes.post('/login', (req: Request, res: Response) => {
                     'RANDOM-TOKEN',
                     { expiresIn: '24h' }
                 );
+                console.log("token",token)
+                console.log("refreshToken",refreshToken)
 
                 res.status(200).send({
                     message: 'Login Successful',

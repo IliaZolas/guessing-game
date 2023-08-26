@@ -45,10 +45,9 @@ const LoginUser: React.FC = () => {
                  // Set HttpOnly cookies
                 document.cookie = `accessToken=${result.token}; Secure; HttpOnly; SameSite=Strict`;
                 document.cookie = `refreshToken=${result.refreshToken}; Secure; HttpOnly; SameSite=Strict`;
+                console.log("token",result.token)
+                console.log("refresh token",result.refreshToken)
 
-                // cookies.set("TOKEN", result.token, {
-                // path: "/"
-                // });
                 localStorage.setItem('email', userEmail);
                 localStorage.setItem('id', userId);
                 setEmail('');
