@@ -11,14 +11,12 @@ declare global {
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let token = req.headers.authorization
-    let tokens = req.headers
-    console.log("token value for auth:",tokens)
+    let token = req.cookies.accessToken;  
+    console.log("token value for auth:",token)
 
     if (!token) {
       const cookies = req.cookies;
       token = cookies.accessToken; 
-      console.log("is there a token for auth here?",token)
     }
 
     if (!token) {

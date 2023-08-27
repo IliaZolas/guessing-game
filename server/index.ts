@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import routesUrls from './routes/routes';
 import cors, { CorsOptions } from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ const corsOptions: CorsOptions = {
   credentials: true,
 };
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());

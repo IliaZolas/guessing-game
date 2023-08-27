@@ -15,7 +15,12 @@ const GameStart: React.FC = () => {
     const [guessResult, setGuessResult] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`${URL}/start-the-game`)
+        fetch(`${URL}/start-the-game`,  {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((response) => response.json())
             .then((data: { gameId: string; gameNumber: number }) => {
                 // console.log(data);
@@ -27,7 +32,7 @@ const GameStart: React.FC = () => {
             .catch((err) => {
                 console.log(err.message);
             });
-    }, []);
+    }, [token]);
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
