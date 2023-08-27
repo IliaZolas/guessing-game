@@ -21,8 +21,8 @@ const GameStart: React.FC = () => {
                 // console.log(data);
                 setGameId(data.gameId);
                 setGameNumber(data.gameNumber);
-                sessionStorage.setItem('gameId', data.gameId.toString());
-                sessionStorage.setItem('gameNumber', data.gameNumber.toString());
+                sessionStorage.setItem('gameId', `${data.gameId}`);
+                sessionStorage.setItem('gameNumber', `${data.gameNumber}`);
             })
             .catch((err) => {
                 console.log(err.message);

@@ -10,7 +10,7 @@ const ProtectedRoutes = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const URL = config.url;
-  console.log("what url am i using",URL)
+  
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -22,7 +22,6 @@ const ProtectedRoutes = () => {
         });
 
         if (response.ok) {
-          console.log("what is in the response?",response)
           const data = await response.json();
 
           if (data.authenticated) {
@@ -40,7 +39,6 @@ const ProtectedRoutes = () => {
   }, [token, URL]);
 
   if (isLoading) {
-    // You can render a loading spinner or some placeholder
     return <div>Loading...</div>;
   }
 

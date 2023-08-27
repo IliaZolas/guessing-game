@@ -11,8 +11,9 @@ declare global {
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let token = req.headers.authorization?.split(' ')[1]
-    console.log("token value for auth:",token)
+    let token = req.headers.authorization
+    let tokens = req.headers
+    console.log("token value for auth:",tokens)
 
     if (!token) {
       const cookies = req.cookies;

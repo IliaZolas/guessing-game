@@ -19,9 +19,8 @@ routes.get('/', (req: Request, res: Response) => {
     });
 
 // Route to check authentication status
-routes.get('/check-auth', authMiddleware, (req: Request, res: Response) => {
+routes.get('/check-auth', (req: Request, res: Response) => {
         res.status(200).json({ authenticated: true });
-        console.log("what is it trying to log?",res.status(200).json({ authenticated: true }))
     });
 
 // User Routes
@@ -95,7 +94,7 @@ routes.post('/login', (req: Request, res: Response) => {
                         userEmail: user.email,
                     },
                     'REFRESH-TOKEN-SECRET',
-                    { expiresIn: '7d' } // Set an appropriate expiration time for refresh tokens
+                    { expiresIn: '7d' } 
                 );
 
                 const token = jwt.sign(
@@ -156,8 +155,6 @@ routes.put('/user/update/:id', authMiddleware, (req: Request, res: Response) => 
     }
     ).then((data) => res.json(data));
     });
-
-
 
 // Game routes
 
