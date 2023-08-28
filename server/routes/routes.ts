@@ -64,9 +64,12 @@ bcrypt
 routes.post('/login', (req: Request, res: Response) => {
     console.log('login route triggered');
 
+    // compare login credentials
     Users.findOne({ email: req.body.email })
         .then((user) => {
         console.log('user object:', user);
+
+        //if no user found, respond not found
         if (!user) {
             res.status(404).send({
             message: 'Email not found',
@@ -74,10 +77,13 @@ routes.post('/login', (req: Request, res: Response) => {
             return;
         }
 
+        //use bcrypt to to check password with found user
         bcrypt
             .compare(req.body.password, user.password)
             .then((passwordCheck) => {
             console.log('password check object:', passwordCheck);
+
+            //if false, say login failed
             if (passwordCheck === false) {
                 console.log('No password provided or wrong password');
                 res.status(200).send({
@@ -87,33 +93,47 @@ routes.post('/login', (req: Request, res: Response) => {
                     passwordCheck
                 });
             } else {
-
+                // else generate tokens
                 const refreshToken = jwt.sign(
                     {
                         userId: user._id,
                         userEmail: user.email,
                     },
-                    'REFRESH-TOKEN-SECRET',
+                    'refreshTokenSecret',
                     { expiresIn: '7d' } 
                 );
 
-                const token = jwt.sign(
+                const accessToken = jwt.sign(
                     {
                         userId: user._id,
                         userEmail: user.email,
                         refreshToken: refreshToken,
                     },
-                    'RANDOM-TOKEN',
+                    'accessTokenSecret',
                     { expiresIn: '24h' }
                 );
-                console.log("token",token)
-                console.log("refreshToken",refreshToken)
-
+                console.log("login route: token ->",accessToken)
+                console.log("Login route: refreshToken ->",refreshToken)
+                
+                // set httponly tokens
+                res.cookie("accessToken", accessToken, {
+                    httpOnly: true, 
+                    sameSite: "none",
+                    secure: false, 
+                });
+                
+                res.cookie("refreshToken", refreshToken, {
+                    httpOnly: true,
+                    sameSite: "none",
+                    secure: false,
+                });
+                
+                // send successful login and tokens
                 res.status(200).send({
                     message: 'Login Successful',
                     email: user.email,
                     userId: user._id,
-                    token,
+                    accessToken,
                     refreshToken
                 });
             }
@@ -164,6 +184,7 @@ routes.get('/start-the-game', authMiddleware, async (req: Request, res: Response
     } catch (error) {
         const errorMessage = (error as Error).message;
         res.status(500).json({ error: errorMessage });
+        console.log("this is the start-the-game error message")
     }
 });
 

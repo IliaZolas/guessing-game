@@ -42,28 +42,28 @@ const LoginUser: React.FC = () => {
         
             if (userId !== undefined && userEmail !== undefined && passwordCheck !== false) {
 
-                 // Set HttpOnly cookies
-                document.cookie = `accessToken=${result.token}; Secure; HttpOnly; SameSite=Strict`;
-                document.cookie = `refreshToken=${result.refreshToken}; Secure; HttpOnly; SameSite=Strict`;
-
-                console.log("logn.tsx token",result.token)
-                console.log("logn.tsx refresh token",result.refreshToken)
+                // Set HttpOnly cookies
+                document.cookie = `accessToken=${result.accessToken}`;
+                document.cookie = `refreshToken=${result.refreshToken}`;
                 
-                localStorage.setItem('email', userEmail);
-                localStorage.setItem('id', userId);
+                // Testing if tokens exist
+                console.log("logn.tsx accessToken",result.accessToken)
+                console.log("logn.tsx refreshToken",result.refreshToken)
+                
+                // Should be session storage
+                sessionStorage.setItem('email', userEmail);
+                sessionStorage.setItem('id', userId);
                 setEmail('');
                 setPassword('');
                 // setLogin(true);
                 setToken(result.token);
-                setUser(result); 
-            } else {
-            console.log("Login failed, password or email incorrect");
-            alert("Login failed, password or email incorrect");
-            }
+                setUser(result);
+                navigate('/game',{ state: { token: result.token } });
+            } 
         }
         } catch (err) {
             if (isError(err)) {
-                console.log("password incorrect or missing:",err.message);
+                alert("Login failed, password or email incorrect");
             } else {
                 console.log("An unknown error occurred:", err);
             }
@@ -73,7 +73,6 @@ const LoginUser: React.FC = () => {
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await loginUser();
-    navigate('/game');
 };
 
     return (

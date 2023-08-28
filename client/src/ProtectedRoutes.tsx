@@ -6,6 +6,7 @@ import { config } from "./config/config";
 const ProtectedRoutes = () => {
   const cookies = new Cookies();
   const token = cookies.get("accessToken");
+  console.log("protected routes token:" , token);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -14,19 +15,27 @@ const ProtectedRoutes = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        if (!token) {
+          console.log("No token available.");
+          setIsLoading(false);
+          return;
+        }
+    
         const response = await fetch(`${URL}/check-auth`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
+    
         if (response.ok) {
           const data = await response.json();
-
+    
           if (data.authenticated) {
             setIsAuthenticated(true);
           }
+        } else {
+          console.log("Authentication failed:", response.status);
         }
       } catch (error) {
         console.error('Error checking authentication:', error);
@@ -34,7 +43,7 @@ const ProtectedRoutes = () => {
         setIsLoading(false);
       }
     };
-
+    
     checkAuth();
   }, [token, URL]);
 
