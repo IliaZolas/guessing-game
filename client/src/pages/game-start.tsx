@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FormEvent } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 // import { UserContext } from '../UserContext';
 import { config } from '../config/config';

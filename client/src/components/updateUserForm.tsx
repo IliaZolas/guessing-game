@@ -46,7 +46,7 @@ const UpdateUserForm: React.FC = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [params.id]);
+  }, [params.id, token]);
 
   const cloudinaryUsername = process.env.REACT_APP_CLOUDINARY_USERNAME;
 

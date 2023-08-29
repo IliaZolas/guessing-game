@@ -37,7 +37,7 @@ const ShowUser: React.FC = () => {
         .catch((err) => {
             console.log(err.message);
         });
-    }, []);
+    }, [token]);
 
     const updateUser = (id: string) => {
         navigate(`/user/update/${id}`);
