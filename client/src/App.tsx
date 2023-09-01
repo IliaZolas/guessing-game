@@ -45,7 +45,7 @@ function App() {
   return (
     <Router>
       <UserContext.Provider value={value}>
-        <div className="App">
+        <div className="App" id="app">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
