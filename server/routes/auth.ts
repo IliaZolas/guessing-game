@@ -10,13 +10,13 @@ declare global {
 }
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('Request Headers:', req.headers); // Print headers
-  console.log('Request Cookies:', req.cookies); // Print cookies
-  console.log('Request URL:', req.url); // Print URL
-  console.log('Request Method:', req.method); // Print HTTP method
+  console.log('Request Headers:', req.headers);
+  console.log('Request Cookies:', req.cookies);
+  console.log('Request URL:', req.url); 
+  console.log('Request Method:', req.method); 
   
   try {
-    let token = req.header('Authorization')?.replace('Bearer ', ''); // Get token from Authorization header
+    let token = req.header('Authorization')?.replace('Bearer ', '');
     console.log("auth.ts: token value for auth -->",token)
 
     if (!token) {

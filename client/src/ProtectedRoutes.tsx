@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { config } from "./config/config";
 
 const ProtectedRoutes = () => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -14,23 +11,15 @@ const ProtectedRoutes = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        if (!token) {
-          console.log("No token available.");
-          setIsLoading(false);
-          return;
-        }
-    
         const response = await fetch(`${URL}/check-auth`, {
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          // credentials: 'include',
         });
     
         if (response.ok) {
           const data = await response.json();
-    
-          if (data.authenticated) {
+
+          if (data.authenticated === true) {
             setIsAuthenticated(true);
           }
         } else {
@@ -44,7 +33,7 @@ const ProtectedRoutes = () => {
     };
     
     checkAuth();
-  }, [token, URL]);
+  }, [URL]);
 
   if (isLoading) {
     return <div>Loading...</div>;

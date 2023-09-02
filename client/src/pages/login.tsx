@@ -20,6 +20,7 @@ const LoginUser: React.FC = () => {
         try {
             const response = await fetch(`${URL}/login`, {
                 method: 'POST',
+                // credentials: "include",
                 body: JSON.stringify({
                     email: email,
                     password: password,
@@ -36,8 +37,6 @@ const LoginUser: React.FC = () => {
                 const passwordCheck = result.passwordCheck;
         
                 if (userId !== undefined && userEmail !== undefined && passwordCheck !== false) {
-                    document.cookie = `accessToken=${result.accessToken}`;
-                    document.cookie = `refreshToken=${result.refreshToken}`;
                     sessionStorage.setItem('email', userEmail);
                     sessionStorage.setItem('id', userId);
                     setEmail('');

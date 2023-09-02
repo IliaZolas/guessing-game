@@ -20,7 +20,28 @@ routes.get('/', (req: Request, res: Response) => {
 
 // Route to check authentication status
 routes.get('/check-auth', (req: Request, res: Response) => {
-        res.status(200).json({ authenticated: true });
+    const accessToken = req.cookies.accessToken;
+    console.log("did auth find the access token?:", accessToken)
+    
+    if (!accessToken) {
+        return res.status(401).json({ authenticated: false });
+        }
+        
+        // Validate the accessToken (e.g., using JWT verification)
+        jwt.verify(accessToken, 'accessToken', (err: any, decoded: any) => {
+        if (err) {
+            return res.status(401).json({ authenticated: false });
+        }
+    
+        const userId = decoded.userId;
+        const userEmail = decoded.userEmail;
+
+        res.status(200).json({
+            authenticated: true,
+            userId: userId,
+            userEmail: userEmail,
+        });
+        });
     });
 
 // User Routes
@@ -114,13 +135,15 @@ routes.post('/login', (req: Request, res: Response) => {
                 res.cookie("accessToken", accessToken, {
                     httpOnly: true, 
                     sameSite: "none",
-                    secure: false, 
+                    secure: true, 
+                    maxAge: 300000,
                 });
                 
                 res.cookie("refreshToken", refreshToken, {
                     httpOnly: true,
                     sameSite: "none",
-                    secure: false,
+                    secure: true,
+                    maxAge: 300000,
                 });
                 
                 res.status(200).send({
