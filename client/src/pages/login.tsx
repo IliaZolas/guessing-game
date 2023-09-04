@@ -20,7 +20,6 @@ const LoginUser: React.FC = () => {
         try {
             const response = await fetch(`${URL}/login`, {
                 method: 'POST',
-                // credentials: "include",
                 body: JSON.stringify({
                     email: email,
                     password: password,
@@ -28,6 +27,7 @@ const LoginUser: React.FC = () => {
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
+                credentials: "include",
             });
         
             if (response.ok) {

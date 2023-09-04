@@ -26,15 +26,15 @@ mongoose
 const corsOptions: CorsOptions = {
   origin: ['https://purple-hill-01d316503.3.azurestaticapps.net', 'http://localhost:3000'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
+  allowedHeaders: ['Origin', 'Content-Type', 'Authorization', 'x-csrf-token', 'Accept'],
   exposedHeaders: ['Authorization' ] 
 };
 
 app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors(corsOptions));
 app.use('/', routesUrls);
 
 const httpsOptions = {

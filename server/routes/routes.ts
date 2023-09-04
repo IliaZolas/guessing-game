@@ -27,10 +27,9 @@ routes.get('/check-auth', (req: Request, res: Response) => {
         return res.status(401).json({ authenticated: false });
         }
         
-        // Validate the accessToken (e.g., using JWT verification)
         jwt.verify(accessToken, 'accessToken', (err: any, decoded: any) => {
         if (err) {
-            return res.status(401).json({ authenticated: false });
+            return res.status(411).json({ authenticated: false });
         }
     
         const userId = decoded.userId;

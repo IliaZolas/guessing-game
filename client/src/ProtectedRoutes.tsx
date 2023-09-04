@@ -7,13 +7,13 @@ const ProtectedRoutes = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const URL = config.url;
-  
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await fetch(`${URL}/check-auth`, {
           method: 'GET',
-          // credentials: 'include',
+          credentials: 'include',
         });
     
         if (response.ok) {
