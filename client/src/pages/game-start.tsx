@@ -20,7 +20,7 @@ const GameStart: React.FC = () => {
     useEffect(() => {
         fetch(`${URL}/start-the-game`,  {
             method: 'GET',
-            // credentials: 'include',
+            credentials: 'include',
             headers: {
                 Authorization: `Bearer ${token}`,
             },
