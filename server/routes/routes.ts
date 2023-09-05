@@ -18,7 +18,7 @@ routes.get('/', (req: Request, res: Response) => {
 // Route to check authentication status
 routes.get('/check-auth', (req: Request, res: Response) => {
     const accessToken = req.cookies.accessToken;
-    console.log("did auth find the access token?  -->", accessToken)
+    // console.log("did auth find the access token?  -->", accessToken)
     
     if (!accessToken) {
         return res.status(401).json({ authenticated: false });
@@ -194,10 +194,10 @@ routes.put('/user/update/:id', authMiddleware, (req: Request, res: Response) => 
 routes.get('/start-the-game', authMiddleware, async (req: Request, res: Response) => {
     try {
         await gameLogic(req, res);
+        console.log("how many times did i fire game logic?")
     } catch (error) {
         const errorMessage = (error as Error).message;
         res.status(500).json({ error: errorMessage });
-        console.log("this is the start-the-game error message")
     }
 });
 

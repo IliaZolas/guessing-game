@@ -1,29 +1,20 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
-// import { UserContext } from '../UserContext';
 import { config } from '../config/config';
 
 const URL = config.url;
-const cookie = new Cookies();
 
 const GameStart: React.FC = () => {
-    // const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const [gameId, setGameId] = useState<string>("");
     const [gameNumber, setGameNumber] = useState<number | undefined>();
     const [inputValue, setInputValue] = useState<number | undefined>();
     const [guessResult, setGuessResult] = useState<string | null>(null);
 
-    const token = cookie.get("accessToken")
-
     useEffect(() => {
         fetch(`${URL}/start-the-game`,  {
             method: 'GET',
             credentials: 'include',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         })
             .then((response) => response.json())
             .then((data: { gameId: string; gameNumber: number; }) => {
@@ -35,7 +26,7 @@ const GameStart: React.FC = () => {
             .catch((err) => {
                 console.log(err.message);
             });
-    }, [token]);
+    }, []);
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

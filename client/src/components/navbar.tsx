@@ -14,7 +14,6 @@ const Navbar: React.FC = () => {
     setUser(null);
   };
 
-  // const email = sessionStorage.getItem('email');
   const id = sessionStorage.getItem('id');
 
   return (
