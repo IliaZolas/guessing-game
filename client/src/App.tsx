@@ -26,6 +26,7 @@ function App() {
     if (id!) {
       fetch(`${URL}/user/show/${id}`, {
         method: 'GET',
+        credentials: 'include',
       })
         .then((response) => response.json())
         .then((data) => {
