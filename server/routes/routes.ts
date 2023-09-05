@@ -10,9 +10,6 @@ import {gameLogic} from '../game-logic/game'
 
 const routes: Router = express.Router();
 
-// Use cors middleware for all routes
-routes.use(cors());
-
 // Index Routes
 routes.get('/', (req: Request, res: Response) => {
         res.send('Hello world');
@@ -21,15 +18,15 @@ routes.get('/', (req: Request, res: Response) => {
 // Route to check authentication status
 routes.get('/check-auth', (req: Request, res: Response) => {
     const accessToken = req.cookies.accessToken;
-    console.log("did auth find the access token?:", accessToken)
+    console.log("did auth find the access token?  -->", accessToken)
     
     if (!accessToken) {
         return res.status(401).json({ authenticated: false });
         }
         
-        jwt.verify(accessToken, 'accessToken', (err: any, decoded: any) => {
+        jwt.verify(accessToken, 'accessTokenSecret', (err: any, decoded: any) => {
         if (err) {
-            return res.status(411).json({ authenticated: false });
+            return res.status(403).json({ authenticated: false });
         }
     
         const userId = decoded.userId;

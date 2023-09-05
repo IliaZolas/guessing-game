@@ -30,13 +30,6 @@ const corsOptions: CorsOptions = {
   exposedHeaders: ['Authorization' ] 
 };
 
-app.use(cookieParser());
-app.use(cors(corsOptions));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(express.json());
-app.use('/', routesUrls);
-
 const httpsOptions = {
   key: fs.readFileSync('../localhost.key'),
   cert: fs.readFileSync('../localhost.crt'),
@@ -47,3 +40,10 @@ const httpsServer = https.createServer(httpsOptions, app);
 httpsServer.listen(PORT, () => {
   console.log(`Server is running on HTTPS at https://localhost:${PORT}`);
 });
+
+app.use(cors(corsOptions));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json());
+app.use('/', routesUrls);
