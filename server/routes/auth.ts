@@ -11,6 +11,7 @@ declare global {
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // console.log("how many times did auth.ts fire?")
     let token = req.cookies.accessToken;
 
     if (!token) {
@@ -28,5 +29,6 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     });
   }
 };
+
 
 export default authMiddleware;

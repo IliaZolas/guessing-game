@@ -5,7 +5,6 @@ import Users from '../models/users';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import authMiddleware from './auth';
-import cors from 'cors';
 import {gameLogic} from '../game-logic/game'
 
 const routes: Router = express.Router();
@@ -15,30 +14,31 @@ routes.get('/', (req: Request, res: Response) => {
         res.send('Hello world');
     });
 
-// Route to check authentication status
+// Route to check authentication status 
 routes.get('/check-auth', (req: Request, res: Response) => {
     const accessToken = req.cookies.accessToken;
-    // console.log("did auth find the access token?  -->", accessToken)
+    console.log("how many times did check-auth fire?")
     
-    if (!accessToken) {
-        return res.status(401).json({ authenticated: false });
-        }
+        if (!accessToken) {
+            return res.status(401).json({ authenticated: false });
+            }
+            
+            jwt.verify(accessToken, 'accessTokenSecret', (err: any, decoded: any) => {
+            if (err) {
+                return res.status(403).json({ authenticated: false });
+            }
         
-        jwt.verify(accessToken, 'accessTokenSecret', (err: any, decoded: any) => {
-        if (err) {
-            return res.status(403).json({ authenticated: false });
-        }
-    
-        const userId = decoded.userId;
-        const userEmail = decoded.userEmail;
+            const userId = decoded.userId;
+            const userEmail = decoded.userEmail;
 
-        res.status(200).json({
-            authenticated: true,
-            userId: userId,
-            userEmail: userEmail,
-        });
+            res.status(200).json({
+                authenticated: true,
+                userId: userId,
+                userEmail: userEmail,
+            });
         });
     });
+
 
 // User Routes
 routes.post('/signup', (req: Request, res: Response) => {
@@ -189,16 +189,36 @@ routes.put('/user/update/:id', authMiddleware, (req: Request, res: Response) => 
     ).then((data) => res.json(data));
     });
 
-// Game routes
+// Logout endpoint
+routes.post('/logout', (req, res) => {
+    console.log("tried to logout")
+    res.clearCookie('accessToken', { httpOnly: true, sameSite: 'none', secure: true, path: '/' });
+    res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true, path: '/' });
+    res.status(200).json({ message: 'Logout successful' });
+});
 
-routes.get('/start-the-game', authMiddleware, async (req: Request, res: Response) => {
-    try {
+// Game routes 
+
+routes.get('/start-the-game', async (req: Request, res: Response) => {
+    const accessToken = req.cookies.accessToken;
+    // console.log("start the game access token? -->",accessToken)
+
+    if (!accessToken) {
+        return res.status(401).json({ authenticated: false });
+    }
+
+    jwt.verify(accessToken, 'accessTokenSecret', async (err: any, decoded: any) => {
+        if (err) {
+        return res.status(403).json({ authenticated: false });
+        }
+
+        try {
         await gameLogic(req, res);
-        console.log("how many times did i fire game logic?")
-    } catch (error) {
+        } catch (error) {
         const errorMessage = (error as Error).message;
         res.status(500).json({ error: errorMessage });
-    }
+        }
+    });
 });
 
 export default routes;

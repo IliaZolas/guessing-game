@@ -43,6 +43,8 @@ function App() {
     [user, setUser]
   );
 
+    // console.log("how many times did i fire in app?")
+
   return (
     <Router>
       <UserContext.Provider value={value}>
