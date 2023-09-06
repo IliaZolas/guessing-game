@@ -28,22 +28,49 @@ const GameStart: React.FC = () => {
             });
     }, []);
 
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        
         if (inputValue === undefined) {
             setGuessResult("Please enter a number.");
-        } else if (inputValue < gameNumber!) {
-            setGuessResult("Guess is too low");
-        } else if (inputValue > gameNumber!) {
-            setGuessResult("Guess is too high");
         } else {
-            sessionStorage.removeItem('gameId');
-            sessionStorage.removeItem('gameNumber');
-            navigate("/game-over");
+            try {
+            const response = await fetch(`${URL}/check-guess`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                guess: inputValue,
+                gameId: gameId, // Pass the game ID if needed
+                gameNumber: gameNumber,
+                }),
+            });
+        
+            if (response.ok) {
+                const data = await response.json();
+                if (data.result === 'success') {
+                // Correct guess, navigate to the game-over page or take other actions
+                sessionStorage.removeItem('gameId');
+                sessionStorage.removeItem('gameNumber');
+                navigate("/game-over");
+                } else if (data.result === 'low') {
+                setGuessResult("Guess is too low");
+                } else {
+                setGuessResult("Guess is too high");
+                }
+            } else {
+                console.error('Failed to submit guess:', response.status);
+                // Handle other error cases
+            }
+            } catch (error) {
+            console.error('Error submitting guess:', error);
+            // Handle fetch error
+            }
         }
-    };
-
+        };
+      
     return (
         <div className="background">
             <div className="form-container">   

@@ -22,18 +22,27 @@ function App() {
 
   useEffect(() => {
     const id = sessionStorage.getItem('id');
-
-    if (id!) {
+  
+    if (id) {
       fetch(`${URL}/user/show/${id}`, {
         method: 'GET',
         credentials: 'include',
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch user data: ${response.status}`);
+          }
+          return response.json();
+        })
         .then((data) => {
-          setUser(data);
+          if (data.authenticated) {
+            setUser(data);
+          } else {
+            console.log('User not authenticated');
+          }
         })
         .catch((err) => {
-          console.log(err.message);
+          console.error(err.message);
         });
     }
   }, []);

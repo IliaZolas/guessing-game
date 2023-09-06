@@ -189,7 +189,6 @@ routes.put('/user/update/:id', authMiddleware, (req: Request, res: Response) => 
     ).then((data) => res.json(data));
     });
 
-// Logout endpoint
 routes.post('/logout', (req, res) => {
     console.log("tried to logout")
     res.clearCookie('accessToken', { httpOnly: true, sameSite: 'none', secure: true, path: '/' });
@@ -199,26 +198,40 @@ routes.post('/logout', (req, res) => {
 
 // Game routes 
 
-routes.get('/start-the-game', async (req: Request, res: Response) => {
-    const accessToken = req.cookies.accessToken;
-    // console.log("start the game access token? -->",accessToken)
+routes.get('/start-the-game', authMiddleware, async (req: Request, res: Response) => {
+    // const accessToken = req.cookies.accessToken;
+    // // console.log("start the game access token? -->",accessToken)
 
-    if (!accessToken) {
-        return res.status(401).json({ authenticated: false });
-    }
+    // if (!accessToken) {
+    //     return res.status(401).json({ authenticated: false });
+    // }
 
-    jwt.verify(accessToken, 'accessTokenSecret', async (err: any, decoded: any) => {
-        if (err) {
-        return res.status(403).json({ authenticated: false });
-        }
+    // jwt.verify(accessToken, 'accessTokenSecret', async (err: any, decoded: any) => {
+    //     if (err) {
+    //         return res.status(403).json({ authenticated: false });
+    //     }
 
         try {
-        await gameLogic(req, res);
+            await gameLogic(req, res);
         } catch (error) {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ error: errorMessage });
+            const errorMessage = (error as Error).message;
+            res.status(500).json({ error: errorMessage });
         }
-    });
+});
+
+routes.post('/check-guess', (req: Request, res: Response) => {
+    const userGuess = req.body.guess;
+    const gameNumber = req.body.gameNumber
+    console.log("this is the guessed number", userGuess )
+    console.log("this is the game number", gameNumber )
+
+    if (userGuess === gameNumber) {
+        res.json({ result: 'success' });
+    } else if (userGuess < gameNumber) {
+        res.json({ result: 'low' });
+    } else {
+        res.json({ result: 'high' });
+    }
 });
 
 export default routes;

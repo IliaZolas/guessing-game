@@ -19,7 +19,7 @@ const ProtectedRoutes = () => {
         if (response.ok) {
           const data = await response.json();
 
-          if (data.authenticated === true) {
+          if (data.authenticated) {
             setIsAuthenticated(true);
           }
         } else {
