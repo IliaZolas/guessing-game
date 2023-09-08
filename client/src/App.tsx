@@ -35,24 +35,19 @@ function App() {
           return response.json();
         })
         .then((data) => {
-          if (data.authenticated) {
             setUser(data);
-          } else {
-            console.log('User not authenticated');
-          }
         })
         .catch((err) => {
           console.error(err.message);
         });
     }
-  }, []);
+  }, []); 
+  
 
   const value: UserContextProps = useMemo(
     () => ({ user, setUser: setUser as Dispatch<SetStateAction<User | null>> }),
     [user, setUser]
   );
-
-    // console.log("how many times did i fire in app?")
 
   return (
     <Router>

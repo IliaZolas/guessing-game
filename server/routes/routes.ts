@@ -17,7 +17,6 @@ routes.get('/', (req: Request, res: Response) => {
 // Route to check authentication status 
 routes.get('/check-auth', (req: Request, res: Response) => {
     const accessToken = req.cookies.accessToken;
-    console.log("how many times did check-auth fire?")
     
         if (!accessToken) {
             return res.status(401).json({ authenticated: false });
@@ -167,11 +166,23 @@ routes.post('/login', (req: Request, res: Response) => {
     });  
 
 routes.get('/user/show/:id', authMiddleware, (req: Request, res: Response) => {
-    const userId = req.params.id;
-    console.log('GET SINGLE USER RECORD:', userId);
+    // const accessToken = req.cookies.accessToken;
 
-    Users.findOne({ _id: userId }).then((data) => res.json(data));
-    });
+    // if (!accessToken) {
+    //     return res.status(401).json({ authenticated: false });
+    // }
+
+    // jwt.verify(accessToken, 'accessTokenSecret', async (err: any, decoded: any) => {
+    //     if (err) {
+    //         return res.status(403).json({ authenticated: false });
+    //     }
+    
+        const userId = req.params.id;
+        console.log('User show has been triggered:', userId);
+
+        Users.findOne({ _id: userId }).then((data) => res.json(data));
+        });
+    // });
 
 routes.put('/user/update/:id', authMiddleware, (req: Request, res: Response) => {
     const userId = req.params.id;
